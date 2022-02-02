@@ -1,9 +1,10 @@
+import { css } from "@emotion/react";
 import { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { deleteEvent, getMember } from "../../services/api";
 
-export function EventCard({ event }) {
+export function EventCard({ event, height, width, isMain }) {
   const [guests, setGuests] = useState([]);
 
   const getDatas = async () => {
@@ -20,37 +21,35 @@ export function EventCard({ event }) {
   useEffect(() => {
     getDatas();
   }, []);
-  console.log(event);
-  console.log(guests);
 
   const handleDelete = async () => {
-    await deleteEvent(event._id);
+    await deleteEvent(event?._id);
   };
 
   return (
     <div
       style={{
-        height: "12rem",
+        height: height,
+        width: width,
 
         position: "relative",
-        width: "100vw",
       }}
     >
       <FaTimes
         color="white"
-        fontSize="2rem"
-        style={{ position: "absolute", left: "1rem", top: "1rem", zIndex: 100 }}
+        fontSize="1rem"
+        style={{ position: "absolute", left: "1rem", top: "1rem", zIndex: 10 }}
         onClick={handleDelete}
       />
-      <Link to={`/event/${event._id}`}>
+      <Link to={`/event/${event?._id}`}>
         <div
           style={{
-            background: `linear-gradient(#00000000, #000000), url('${event.image}')`,
-            height: "12rem",
+            background: `linear-gradient(#00000000, #000000) , url('${event?.image}')`,
             backgroundSize: "cover",
             backgroundPosition: "center",
             position: "relative",
-            width: "100vw",
+            height,
+            width,
           }}
         >
           <h2
@@ -63,8 +62,39 @@ export function EventCard({ event }) {
               left: 20,
             }}
           >
-            {event.name}
+            {event?.name}
           </h2>
+          {isMain && (
+            <p
+              style={{
+                backgroundColor: "yellow",
+                padding: "1rem 0.5rem",
+                color: "blue",
+                textDecoration: "non",
+                width: "20%",
+                borderRadius: "4px",
+                position: "absolute",
+                bottom: 0,
+                right: "2rem",
+                color: "black",
+              }}
+            >
+              Événement en avant
+            </p>
+          )}
+          {event?.begindate && (
+            <p
+              style={{
+                color: "white",
+                position: "absolute",
+                top: 0,
+                right: 0,
+              }}
+            >
+              {new Date(event?.begindate).toLocaleDateString()}{" "}
+              {new Date(event?.begindate).toLocaleTimeString()}
+            </p>
+          )}
           <div
             className="guests"
             style={{ position: "absolute", bottom: 15, left: 20 }}

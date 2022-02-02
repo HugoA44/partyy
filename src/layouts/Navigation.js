@@ -16,6 +16,7 @@ export function Navigation({ formOpen, setFormOpen }) {
         flexDirection: "row",
         justifyContent: "space-around",
         alignItems: "center",
+        marginTop: "4rem",
       }}
     >
       <Link to="/">

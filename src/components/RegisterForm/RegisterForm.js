@@ -63,9 +63,9 @@ export const RegisterForm = ({ submit, error }) => {
           onChange={handleChange}
         />
         <TextField
-          name="phone"
-          label="Téléphone"
-          value={formData.phone}
+          name="picture"
+          label="Photo"
+          value={formData.picture}
           onChange={handleChange}
         />
       </Stack>

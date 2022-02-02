@@ -23,7 +23,7 @@ export function Header() {
         boxSizing: "border-box",
       }}
     >
-      <h2>Logo Ici</h2>
+      <img src="/logo.png" alt="logo" style={{ width: "3rem" }} />
       <FaBell />
     </div>
   );

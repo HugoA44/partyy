@@ -10,27 +10,33 @@ export const Event = () => {
   const getDatas = async () => {
     const events = await getEvent(id);
     setEvent(events);
-    events?.guests?.map(async (guest) => {
+    event?.guests?.map(async (guest) => {
+      const member = await getMember(guest);
+      try {
+        console.log(member);
+        setGuests((previous) => [...previous, member]);
+      } catch {
+        console.error("error");
+      }
+    });
+  };
+  useEffect(() => {
+    getDatas();
+  }, []);
+  const getDatas2 = async (event) => {
+    event?.guests?.map(async (guest) => {
       const member = await getMember(guest);
 
       setGuests([...guests, member]);
     });
   };
 
-  //   const getDatas2 = async () => {
-  //     event?.guests?.map(async (guest) => {
-  //       const member = await getMember(guest);
-  //       setGuests([...guests, member]);
-  //     });
-  //   };
-
   useEffect(() => {
-    getDatas();
-    // getDatas2();
-  }, []);
+    getDatas2(event);
+  }, [event]);
 
   return (
-    <div>
+    <div style={{ textAlign: "left" }}>
       <img
         alt={event.name}
         src={event?.image}
@@ -40,10 +46,38 @@ export const Event = () => {
           objectFit: "cover",
         }}
       />
-      <h1 style={{}}>{event.name}</h1>
-      <div>
-        <h3>Invités</h3>
-        <ul></ul>
+      <div style={{ padding: "0 5%" }}>
+        <h1 style={{}}>{event.name}</h1>
+        <p>{event?.description}</p>
+        {event.begindate && (
+          <p>
+            {new Date(event?.begindate).toLocaleDateString()}{" "}
+            {new Date(event?.begindate).toLocaleTimeString()}
+          </p>
+        )}
+        <div>
+          <h3>Invités</h3>
+          <ul style={{ margin: 0, padding: 0 }}>
+            {guests.map((guest) => {
+              return (
+                <li style={{ listStyle: "none ", margin: 0, padding: 0 }}>
+                  {" "}
+                  <img
+                    src={guest?.picture}
+                    alt={guest?.firstName}
+                    style={{
+                      width: "2.5rem",
+                      height: "2.5rem",
+                      borderRadius: "100%",
+                      marginRight: "0.85rem",
+                    }}
+                  />
+                  {guest.firstName + " " + guest.lastName}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       </div>
     </div>
   );

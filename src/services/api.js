@@ -52,6 +52,14 @@ const getMember = async (member) => {
     console.error(e);
   }
 };
+const getMembers = async () => {
+  try {
+    const response = await api.get(`/users/members`);
+    return response.data;
+  } catch (e) {
+    console.error(e);
+  }
+};
 
 const login = async (credentials) => {
   try {
@@ -102,6 +110,7 @@ export {
   createEvent,
   deleteEvent,
   getMember,
+  getMembers,
   login,
   register,
   getProfile,

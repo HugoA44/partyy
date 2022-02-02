@@ -11,7 +11,7 @@ import { useFormik } from "formik";
 
 import { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
-import { createEvent } from "../services/api";
+import { createEvent, getMembers } from "../services/api";
 
 export function AddForm({ formOpen, setFormOpen }) {
   const [size, setSize] = useState("scale(0)");
@@ -19,18 +19,35 @@ export function AddForm({ formOpen, setFormOpen }) {
     setSize("scale(1)");
   }, []);
 
-  const date = new Date();
+  const [members, setMembers] = useState([]);
+
+  const getDatas = async () => {
+    const data = await getMembers();
+    setMembers(data);
+  };
+
+  useEffect(() => {
+    getDatas();
+  }, []);
+
+  const begindate = new Date();
 
   const formik = useFormik({
     initialValues: {
       name: "",
+      description: "",
       image: "",
-      //   guests: [],
-      date: "",
+      guests: [],
+      begindate: "",
     },
     onSubmit: async (values) => {
       try {
-        await createEvent(values);
+        await createEvent({
+          ...values,
+          guests: values.guests.map((guest) => {
+            return guest._id;
+          }),
+        });
         setFormOpen(!formOpen);
       } catch {
         console.error("Erreur");
@@ -38,17 +55,7 @@ export function AddForm({ formOpen, setFormOpen }) {
     },
   });
 
-  const guests = [
-    {
-      id: "1",
-      name: "audrey",
-    },
-    {
-      id: "2",
-      name: "hugo",
-    },
-  ];
-
+  console.log(formik.values.guests);
   return (
     <div
       style={{
@@ -58,7 +65,7 @@ export function AddForm({ formOpen, setFormOpen }) {
         transition: "all 0.2s",
         transform: size,
         transformOrigin: "bottom center",
-        zIndex: 2,
+        zIndex: 100,
         position: "fixed",
         top: 0,
       }}
@@ -92,6 +99,15 @@ export function AddForm({ formOpen, setFormOpen }) {
           value={formik.values.name}
           onChange={formik.handleChange}
         />
+        <TextField
+          id="description"
+          name="description"
+          label="Description de l'événement"
+          variant="filled"
+          style={{ backgroundColor: "white" }}
+          value={formik.values.description}
+          onChange={formik.handleChange}
+        />
 
         <TextField
           id="image"
@@ -103,7 +119,7 @@ export function AddForm({ formOpen, setFormOpen }) {
           onChange={formik.handleChange}
         />
 
-        {/* <Select
+        <Select
           multiple
           id="guests"
           name="guests"
@@ -113,30 +129,40 @@ export function AddForm({ formOpen, setFormOpen }) {
           renderValue={(selected) =>
             selected
               .map((selectedItem) => {
-                return selectedItem?.name;
+                return selectedItem?.firstName + " " + selectedItem?.lastName;
               })
               .join(", ")
           }
         >
-          {guests.map((guest) => (
-            <MenuItem key={guest.id} value={guest.id}>
+          {members.map((guest) => (
+            <MenuItem key={guest._id} value={guest}>
               <Checkbox checked={formik.values.guests.indexOf(guest) > -1} />
-              <ListItemText primary={guest.name} />
+              <img
+                src={guest?.picture}
+                alt={guest?.firstName}
+                style={{
+                  width: "2.5rem",
+                  height: "2.5rem",
+                  borderRadius: "100%",
+                  marginRight: "0.85rem",
+                }}
+              />
+              <ListItemText primary={`${guest.firstName} ${guest.lastName}`} />
             </MenuItem>
           ))}
-        </Select> */}
+        </Select>
 
         <TextField
-          id="date"
-          name="date"
-          label="Next appointment"
+          id="begindate"
+          name="begindate"
+          label="Heure de l'événement"
           type="datetime-local"
-          defaultValue={date}
+          defaultValue={begindate}
           style={{ backgroundColor: "white" }}
           InputLabelProps={{
             shrink: true,
           }}
-          value={formik.values.date}
+          value={formik.values.begindate}
           onChange={formik.handleChange}
         />
         <Button color="primary" variant="contained" type="submit">

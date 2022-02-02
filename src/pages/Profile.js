@@ -3,6 +3,7 @@ import { Box } from "@mui/system";
 import { useEffect, useState } from "react";
 import { LoginForm } from "../components/RegisterForm/LoginForm";
 import { RegisterForm } from "../components/RegisterForm/RegisterForm";
+import { Upload } from "../components/Upload/Upload";
 
 import {
   actionTypes,
@@ -59,9 +60,13 @@ export const Profile = () => {
         <Box>
           <img
             alt={profil?.firstName}
-            src={profil?.picture}
+            src={
+              profil?.picture ||
+              "https://jsl-online.com/wp-content/uploads/2017/01/placeholder-user.png"
+            }
             style={{ width: "5rem", height: "5rem", borderRadius: "100%" }}
           />
+          <Upload />
 
           <Typography variant="h3">
             {profil?.firstName} {profil?.lastName}
