@@ -54,6 +54,8 @@ export const Profile = () => {
     });
   };
 
+
+
   return (
     <div>
       {isLoggedIn ? (

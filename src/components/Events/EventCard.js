@@ -67,7 +67,7 @@ export function EventCard({ event, height, width, isMain }) {
           {isMain && (
             <p
               style={{
-                backgroundColor: "yellow",
+                backgroundColor: "#ddae2b",
                 padding: "1rem 0.5rem",
                 color: "blue",
                 textDecoration: "non",
@@ -76,7 +76,7 @@ export function EventCard({ event, height, width, isMain }) {
                 position: "absolute",
                 bottom: 0,
                 right: "2rem",
-                color: "black",
+                color: "white",
               }}
             >
               Événement en avant

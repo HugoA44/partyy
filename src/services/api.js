@@ -94,7 +94,7 @@ const getProfile = async () => {
     if (token) {
       const response = await api.get("/me", {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `${token}`,
         },
       });
       return response.data;

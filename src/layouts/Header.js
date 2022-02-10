@@ -24,7 +24,7 @@ export function Header() {
       }}
     >
       <img src="/logo.png" alt="logo" style={{ width: "3rem" }} />
-      <FaBell />
+      {/* <FaBell /> */}
     </div>
   );
 }
