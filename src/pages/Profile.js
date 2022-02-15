@@ -1,6 +1,7 @@
 import { Button, Container, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { LoginForm } from "../components/RegisterForm/LoginForm";
 import { RegisterForm } from "../components/RegisterForm/RegisterForm";
 import { Upload } from "../components/Upload/Upload";
@@ -17,12 +18,15 @@ export const Profile = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isRegister, setIsRegister] = useState(false);
   const [profil, setProfil] = useState(null);
+  const location = useLocation();
 
+  // On récupère les éléments du contexte d'authentification
   const {
     dispatch,
     state: { error, user, loading },
   } = useAuth();
 
+  // Au chargement du composant on vérifie si il y a un user, et donc sélectionne quel affichage utiliser
   useEffect(() => {
     if (user) {
       setIsLoggedIn(true);
@@ -43,6 +47,7 @@ export const Profile = () => {
     }
   };
 
+  // Au chargement du composant, on récupère le profil
   useEffect(async () => {
     const profile = await getProfile();
     setProfil(profile);
@@ -54,10 +59,9 @@ export const Profile = () => {
     });
   };
 
-
-
   return (
     <div>
+      {/* Selon si on est log ou pas, on affiche des éléments différents */}
       {isLoggedIn ? (
         <Box>
           <img
@@ -68,7 +72,7 @@ export const Profile = () => {
             }
             style={{ width: "5rem", height: "5rem", borderRadius: "100%" }}
           />
-          <Upload />
+          {/* <Upload /> */}
 
           <Typography variant="h3">
             {profil?.firstName} {profil?.lastName}

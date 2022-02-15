@@ -7,6 +7,7 @@ import { getEvents } from "../services/api";
 export function Home() {
   const [events, setEvents] = useState([]);
 
+  // On récupère les événements
   const getDatas = async () => {
     const events = await getEvents();
     setEvents(events);
@@ -47,6 +48,26 @@ export function Home() {
                 event={event}
                 height="7rem"
                 width="50vw"
+                style={{ marginRight: "1rem" }}
+              />
+            );
+          })}
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 3,
+            mt: 3,
+          }}
+        >
+          {events?.map((event) => {
+            return (
+              <EventCard
+                event={event}
+                height="12rem"
+                width="90VW"
                 style={{ marginRight: "1rem" }}
               />
             );

@@ -1,27 +1,33 @@
 import { css } from "@emotion/react";
+import { Box } from "@mui/system";
 import { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { deleteEvent, getMember } from "../../services/api";
 
 export function EventCard({ event, height, width, isMain }) {
+  // On initie l'état d'invité
   const [guests, setGuests] = useState([]);
 
+  // On load les datas de l'api afin de récupérer les invités de l'événement
   const getDatas = async () => {
+    // On map les id d'invités et on les envoie à l'api pour récupérer les infos du membre
     event?.guests?.map(async (guest) => {
       const member = await getMember(guest);
       try {
-        console.log(member);
         setGuests((previous) => [...previous, member]);
       } catch {
         console.error("error");
       }
     });
   };
+
+  // On utilise le hook useEffect pour appeler la récupération des données au chargement du composant
   useEffect(() => {
     getDatas();
   }, []);
 
+  // On créé la fonction à appeler lors de la suppression de l'élément (Je l'ai désactive pour la version en ligne)
   const handleDelete = async () => {
     await deleteEvent(event?._id);
   };
@@ -35,12 +41,12 @@ export function EventCard({ event, height, width, isMain }) {
         position: "relative",
       }}
     >
-      <FaTimes
+      {/* <FaTimes
         color="white"
         fontSize="1rem"
         style={{ position: "absolute", left: "1rem", top: "1rem", zIndex: 10 }}
         onClick={handleDelete}
-      />
+      /> */}
       <Link to={`/event/${event?._id}`}>
         <div
           style={{
@@ -82,23 +88,42 @@ export function EventCard({ event, height, width, isMain }) {
               Événement en avant
             </p>
           )}
+          {/* Si la date existe, on l'affiche */}
           {event?.begindate && (
-            <p
-              style={{
-                color: "white",
+            <Box
+              sx={{
+                backgroundColor: "#ddae2b",
+                padding: "3px",
                 position: "absolute",
-                top: 0,
-                right: 0,
+                borderRadius: "4px",
+                bottom: 5,
+                right: 5,
               }}
             >
-              {new Date(event?.begindate).toLocaleDateString()}{" "}
-              {new Date(event?.begindate).toLocaleTimeString()}
-            </p>
+              <p
+                style={{
+                  color: "white",
+                  margin: 0,
+                }}
+              >
+                {new Date(event?.begindate).toLocaleDateString()}
+              </p>
+
+              <p
+                style={{
+                  color: "white",
+                  margin: 0,
+                }}
+              >
+                {new Date(event?.begindate).toLocaleTimeString()}
+              </p>
+            </Box>
           )}
           <div
             className="guests"
             style={{ position: "absolute", bottom: 15, left: 20 }}
           >
+            {/* On map les invités */}
             {guests.map((guest, idx) => {
               return (
                 <img

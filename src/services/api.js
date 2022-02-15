@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:4000",
+  baseURL: "http://partyy-api.hugoaunette.fr",
   headers: {
     "Content-Type": "application/json",
   },

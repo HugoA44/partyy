@@ -32,6 +32,7 @@ export function AddForm({ formOpen, setFormOpen }) {
 
   const begindate = new Date();
 
+  // J'ai utilisé formik pour créer un formulaire plus performant
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -55,7 +56,6 @@ export function AddForm({ formOpen, setFormOpen }) {
     },
   });
 
-  console.log(formik.values.guests);
   return (
     <div
       style={{

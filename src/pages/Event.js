@@ -8,13 +8,16 @@ export const Event = () => {
   const [guests, setGuests] = useState([]);
 
   const getDatas = async () => {
+    // On get les events et on les set dans le use state
     const events = await getEvent(id);
     setEvent(events);
-    event?.guests?.map(async (guest) => {
+    // on map les invités de l'événement
+    events?.guests?.map(async (guest) => {
+      // On récupère les infos des invités
       const member = await getMember(guest);
       try {
-        console.log(member);
-        setGuests((previous) => [...previous, member]);
+        // Et on les push dans le state
+        setGuests((prev) => [...prev, member]);
       } catch {
         console.error("error");
       }
@@ -23,17 +26,6 @@ export const Event = () => {
   useEffect(() => {
     getDatas();
   }, []);
-  const getDatas2 = async (event) => {
-    event?.guests?.map(async (guest) => {
-      const member = await getMember(guest);
-
-      setGuests([...guests, member]);
-    });
-  };
-
-  useEffect(() => {
-    getDatas2(event);
-  }, [event]);
 
   return (
     <div style={{ textAlign: "left" }}>
