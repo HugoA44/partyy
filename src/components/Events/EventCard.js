@@ -41,12 +41,12 @@ export function EventCard({ event, height, width, isMain }) {
         position: "relative",
       }}
     >
-      {/* <FaTimes
+      <FaTimes
         color="white"
         fontSize="1rem"
         style={{ position: "absolute", left: "1rem", top: "1rem", zIndex: 10 }}
         onClick={handleDelete}
-      /> */}
+      />
       <Link to={`/event/${event?._id}`}>
         <div
           style={{

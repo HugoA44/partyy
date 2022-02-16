@@ -1,13 +1,15 @@
 import axios from "axios";
 
+// On initialise l'api avec axios
 const api = axios.create({
-  baseURL: "http://partyy-api.hugoaunette.fr",
+  baseURL: "http://localhost:4000",
   headers: {
     "Content-Type": "application/json",
   },
   timeout: 10000,
 });
 
+// On crée chaque appel d'API
 const getEvents = async () => {
   try {
     const response = await api.get("/events");

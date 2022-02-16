@@ -17,6 +17,10 @@ export function Home() {
     getDatas();
   }, []);
 
+  if (!events) {
+    return <div>Aucuns événements</div>;
+  }
+
   return (
     <div className="home">
       <div className="events" style={{ marginBottom: "5rem" }}>
